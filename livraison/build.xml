@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Puzzle_Tetris" default="main">
+
+    <!-- Les dossiers different utiles -->
+    <property name="src.dir" location="src"/>
+    <property name="dist.dir" location="dist"/>
+    <property name="test.dir" location="${src.dir}/tests"/>
+    <property name="main.class" value="Main"/>
+    <property name="jar.name" value="Puzzle_Tetris.jar"/>
+
+    <!-- le chemin vers build -->
+    <path id="classpath">
+        <pathelement location="${dist.dir}"/>
+    </path>
+
+    <!-- créer le répertoire de build -->
+    <target name="init">
+        <mkdir dir="${dist.dir}"/>
+    </target>
+
+    <!-- effacé le répertoire de build -->
+    <target name="clean">
+        <delete dir="${d.dir}"/>
+    </target>
+
+    <!-- compiler le code source -->
+    <target name="compile" depends="clean, init">
+        <javac srcdir="${src.dir}" destdir="${dist.dir}" includeantruntime="false">
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+
+    <!-- exécuter le main -->
+    <target name="main" depends="compile">
+        <java classname="${main.class}">
+            <classpath refid="classpath"/>
+        </java>
+    </target>
+
+    <!-- exécuter les tests avec -ea (activation des assert)-->
+    <target name="test" depends="compile">
+        <junit printsummary="yes" fork="true">
+            <classpath refid="classpath"/>
+            <jvmarg value="-ea"/>
+        </junit>
+    </target>
+
+	<!-- Cible pour la création de l'archive JAR -->
+    <target name="jar" depends="compile">
+        <jar destfile="${dist.dir}/${jar.name}" basedir="${dist.dir}">
+            <!-- Inclure tous les fichiers compilés dans l'archive -->
+            <fileset dir="${dist.dir}" includes="/*.class"/>
+            <!-- Inclure d'autres ressources si nécessaire -->
+            <!-- <fileset dir="${src.dir}" includes="/*.xml"/> -->
+        </jar>
+    </target>
+    
+    <!-- Creation de la Documentation-->
+	<target name="javadoc">
+	    <javadoc sourcepath="src" destdir="doc" >
+		<fileset dir="src" defaultexcludes="yes">
+		    <include name="**" />
+		</fileset>
+		<classpath refid="classpath"/>
+		<packageset dir="src" defaultexcludes="yes">
+		    <include name="**"/>
+		</packageset>
+	    </javadoc>
+	</target>
+
+    <!-- commande par défaut si rien de specifié -->
+    <target name="default" depends="main"/>
+
+</project>
+

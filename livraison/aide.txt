@@ -1,0 +1,17 @@
+Pour update:
+-git pull
+
+pour commit:
+-git add * //si un fichier à été modifié
+-git commit -m "message"
+-git push   "DOSSIER INVISIBLE SI VIDE"
+ 
+
+
+3 packages pour la MVC : view controller model
+
+idées de class dans model : 
+- class Piece(String l )qui crée une piece en fct des arguments donnés
+- 
+-
+
